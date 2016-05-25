@@ -11,6 +11,7 @@ class Merra():
         self.year  = year
         self.lat = lat
         self.lon = lon
+        self.ndays = ndays
 
 
 
@@ -28,7 +29,7 @@ class Merra():
 
 
         self.lat_actual = self.native_lat[self.lat_idx_native]
-        self.lat_actual = self.
+        self.lon_actual = self.native_lon[self.lon_idx_native]
 
         return
 
@@ -52,9 +53,38 @@ class Merra():
 
     def surface_fluxes(self):
 
-        #First get latent heat flux
+        #Get the sensible and latent heat fluxes
+        lhf = np.array([], dtype=np.double)
+        evap = np.array([], dtype=np.double)
+        shf = np.array([], dtype=np.double)
+        qlml = np.array([], dtype=np.double)
+        tlml = np.array([], dtype=np.double)
+        ulml = np.array([], dtype=np.double)
+        vlml = np.array([], dtype=np.double)
+        precip = np.array([], dtype=np.double)
+        time = np.array([], dtype=np.double)
 
 
+        for i in range(self.ndays):
+            path = self.construct_path('http://goldsmr2.sci.gsfc.nasa.gov:80/opendap/MERRA/MAT1NXFLX.5.2.0',
+                                       'MERRA300.prod.assim.tavg1_2d_flx_Nx.', i)
+            dataset = open_url(path)
+
+
+            #lhf = np.append(lhf, dataset['EFLUX'][:,self.lat_idx_native, self.lon_idx_native])
+            #shf = np.append(shf, dataset['HFLUX'][:,self.lat_idx_native, self.lon_idx_native])
+            #evap = np.append(evap, dataset['EVAP'][:,self.lat_idx_native, self.lon_idx_native])
+            #ulml = np.append(ulml, dataset['ULML'][:, self.lat_idx_native, self.lon_idx_native])
+            #vlml = np.append(vlml, dataset['VLML'][:, self.lat_idx_native, self.lon_idx_native])
+            #qlml = np.append(qlml, dataset['QLML'][:, self.lat_idx_native, self.lon_idx_native])
+            #tlml = np.append(tlml, dataset['TLML'][:, self.lat_idx_native, self.lon_idx_native])
+            #precip = np.append(precip, dataset['PRECTOT'][:, self.lat_idx_native, self.lon_idx_native])
+
+            #time = np.append(time, dataset['TIME'][:])
+
+        #import pylab as plt
+        #plt.plot(precip)
+        #plt.show()
 
 
         return
